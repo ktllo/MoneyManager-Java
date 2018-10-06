@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
 	<Appenders>
-		<RollingFile name="file" fileName="batch.log" filePattern="bot.%i.log">
+		<RollingFile name="file" fileName="batch.log" filePattern="batch.%i.log">
             <PatternLayout>
-                <Pattern>%d %-5p [%10.10t] %m %ex%n</Pattern>
+                <Pattern>%d %5p %-10.10t %m %ex%n</Pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="10 MB"/>
@@ -12,14 +12,14 @@
         </RollingFile>
 		<Console name="STDOUT" target="SYSTEM_OUT">
 			<PatternLayout>
-                <Pattern>%d %-5p [%10.10t] %m %ex%n</Pattern>
+                <Pattern>%d %5p %-10.10t %m %ex%n</Pattern>
             </PatternLayout>
 		</Console>
 	</Appenders>
 	<Loggers>
 		<Root level="trace">
 			<AppenderRef ref="file" level="INFO"/>
-			<AppenderRef ref="STDOUT" level="DEBUG"/>
+			<AppenderRef ref="STDOUT"/>
 		</Root>
 	</Loggers>
 </Configuration>

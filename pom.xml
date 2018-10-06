@@ -33,12 +33,25 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20180813</version>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.5.0</version>
 		</dependency>
 
 	</dependencies>
+	<issueManagement>
+		<system>MantisBT</system>
+		<url>https://bug.leolo.org/</url>
+	</issueManagement>
 </project>
