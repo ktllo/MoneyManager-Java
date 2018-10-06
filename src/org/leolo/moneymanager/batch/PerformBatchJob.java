@@ -15,6 +15,10 @@ public class PerformBatchJob {
 	private static final Logger log = LoggerFactory.getLogger(PerformBatchJob.class);
 	
 	public static void main(String [] args){
+		new PerformBatchJob().run(args);
+	}
+	
+	private void run(String [] args){
 		log.info("Batch job started.");
 		final long start = System.currentTimeMillis();
 		if(args.length<1){
@@ -38,10 +42,20 @@ public class PerformBatchJob {
 			System.exit(1);
 		}
 		mkConf(args[0]);
-		
+		if(DatabaseManager.getInstance().testConnection()){
+			log.info("Connection OK");
+		}else{
+			log.error("FATAL ERROR: Connection error.");
+			System.exit(1);
+		}
+		//Start the jobs
+		JobManager jman = new JobManager();
+		new CurrencyUpdater(jman).start();
+		jman.waitAllJobFinish();
+		log.info("Done!");
 	}
 	
-	private static void mkConf(String base){
+	private void mkConf(String base){
 		//TODO: Call the php binary to build the java version of conf.
 		try {
 			log.info("Calling php to get the updated version of configuration.");
