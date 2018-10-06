@@ -1,11 +1,11 @@
 package org.leolo.moneymanager.batch;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class Configuration {
 	
-	private Map<String, Object> config = new HashMap<>();
+	private Map<String, Object> config = new Hashtable<>();
 	
 	public void addAll(Map<String, ? extends Object> map){
 		config.putAll(map);
