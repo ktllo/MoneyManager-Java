@@ -1,7 +1,12 @@
 package org.leolo.moneymanager.batch;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,15 +37,37 @@ public class PerformBatchJob {
 			log.error("FATAL ERROR: PHP version of config file does not exists");
 			System.exit(1);
 		}
-		File javaConf = new File(args[0]+"/"+"config.dat");
-		if(!javaConf.exists()){
-			log.info("Config file does not exists. Will build a new one.");
-			mkConf();
-		}
+		mkConf(args[0]);
 		
 	}
 	
-	private static void mkConf(){
+	private static void mkConf(String base){
 		//TODO: Call the php binary to build the java version of conf.
+		try {
+			log.info("Calling php to get the updated version of configuration.");
+			long start = System.currentTimeMillis();
+			Process p = Runtime.getRuntime().exec("php "+base+"/mkConf.xphp");
+			long end = System.currentTimeMillis();
+			log.info("Finished calling php program. Time used {}ms", end-start);
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			StringBuilder sb = new StringBuilder();
+			while(true){
+				String line = stdInput.readLine();
+				if(line==null)
+					break;
+				sb.append(line);
+			}
+			log.info("JSON size is {} bytes",sb.length());
+			log.debug(sb.toString());
+			JSONObject json = new JSONObject(sb.toString());
+			
+			int count = 0;
+			for(String key:json.keySet()){
+				ConfigurationManager.getInstance().getConfig().add(key, json.get(key));
+				log.debug("{}: key={};value={}",++count, key, json.get(key));
+			}
+		} catch (IOException|JSONException e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 }
