@@ -35,7 +35,9 @@ public class DatabaseManager {
 	}
 	
 	public Connection getConnection() throws SQLException{
-		return datasource.getConnection();
+		Connection conn = datasource.getConnection();
+		conn.setAutoCommit(false);
+		return conn;
 	}
 
 	public boolean getCacheState() {
