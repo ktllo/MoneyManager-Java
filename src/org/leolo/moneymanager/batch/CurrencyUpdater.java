@@ -18,17 +18,15 @@ import java.util.TimeZone;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.leolo.util.jobcontrol.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CurrencyUpdater extends Job{
 	private static final Logger log = LoggerFactory.getLogger(CurrencyUpdater.class);
 	
-	public CurrencyUpdater(JobManager parent){
-		super(parent);
-	}
 	
-	public void content(){
+	public void run(){
 		String baseCurrency = ConfigurationManager.getInstance().getConfig().get("BASE_CURRENCY", "USD");
 		log.info("Obtaining exchange rate from api.exchangeratesapi.io with base currency {}",baseCurrency);
 		HashMap<String, Double> rateMap = new HashMap<>();

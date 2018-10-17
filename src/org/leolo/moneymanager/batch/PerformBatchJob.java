@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.leolo.util.jobcontrol.JobController;
+import org.leolo.util.jobcontrol.JobDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,9 +51,13 @@ public class PerformBatchJob {
 			System.exit(1);
 		}
 		//Start the jobs
-		JobManager jman = new JobManager();
-		new CurrencyUpdater(jman).start();
-		jman.waitAllJobFinish();
+		JobController controller = new JobController(10);
+		JobDetailsImpl jdi = new JobDetailsImpl();
+		jdi.setJob(new CurrencyUpdater());
+		jdi.setJobName("Currency Updater");
+		jdi.setJobId("cu-00");
+		controller.addJob(jdi);
+		controller.start();
 		log.info("Done!");
 	}
 	
